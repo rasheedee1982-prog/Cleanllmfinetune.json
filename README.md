@@ -1,14 +1,5 @@
-[
-  {
-    "instruction": "What is AI?",
-    "response": "Artificial Intelligence."
-  },
-  {
-    "instruction": "Who made you?",
-    "response": "A human."
-  },
-  {
-    "instruction": "hi",
-    "response": "hey"
-  },
-] 
+User: hi
+Assistant: Hello! How can I help?
+
+User: what is AI
+Assistant: AI means artificial intelligence.
