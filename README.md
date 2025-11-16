@@ -1,4 +1,4 @@
-User: hi
+User: hi how 
 Assistant: Hello! How can I help?
 
 User: what is AI
