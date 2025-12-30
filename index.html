@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #F9FAFB; font-family: 'Segoe UI', sans-serif; margin: 0; display: flex; flex-direction: column; height: 100vh; }
+        .soft-shadow { box-shadow: 0 4px 20px rgba(0,0,0,0.03); }
+        .chat-bubble { max-width: 80%; padding: 12px 16px; border-radius: 20px; font-size: 15px; margin: 8px 0; animation: fadeIn 0.3s ease; }
+        .user { background: #FFFFFF; color: #111; align-self: flex-end; border: 1px solid #E5E7EB; border-bottom-right-radius: 4px; }
+        .bot { background: #3B82F6; color: white; align-self: flex-start; border-bottom-left-radius: 4px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        #train-page { display: none; position: fixed; inset: 0; background: white; z-index: 50; padding: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="bg-white/80 backdrop-blur-md p-4 flex justify-between items-center sticky top-0 border-b z-10">
+        <h1 class="font-bold text-gray-800 text-lg">Assistant Pro</h1>
+        <button onclick="toggleMenu()" class="text-gray-400 text-2xl hover:text-gray-600">⋮</button>
+    </div>
+
+    <div id="chat-box" class="flex-1 overflow-y-auto p-4 flex flex-col">
+        <div class="chat-bubble bot shadow-sm">Hello Rashik! Paste your training data in the menu to teach me.</div>
+    </div>
+
+    <div id="train-page" class="flex flex-col">
+        <div class="flex items-center mb-6">
+            <button onclick="toggleMenu()" class="text-blue-600 font-semibold mr-4">← Back</button>
+            <h2 class="text-xl font-bold">Training Center</h2>
+        </div>
+        <textarea id="train-input" class="flex-1 w-full p-4 bg-gray-50 border rounded-2xl outline-none resize-none" placeholder="User: Your name?&#10;Assistant: I am Rashik AI."></textarea>
+        <button onclick="trainBot()" class="mt-4 bg-blue-600 text-white py-4 rounded-2xl font-bold shadow-lg shadow-blue-200">CLICK TO TRAIN</button>
+    </div>
+
+    <div class="p-4 bg-white border-t flex gap-2 items-center">
+        <input id="user-input" type="text" class="flex-1 bg-gray-100 p-3 rounded-2xl outline-none text-gray-700" placeholder="Type a message...">
+        <button onclick="sendMessage()" class="bg-blue-600 text-white px-6 py-2 rounded-xl font-semibold shadow-md">Send</button>
+    </div>
+
+    <script>
+        let botMemory = "";
+
+        function toggleMenu() {
+            const page = document.getElementById('train-page');
+            page.style.display = (page.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function trainBot() {
+            botMemory = document.getElementById('train-input').value;
+            alert("Bot is now trained! 🚀");
+            toggleMenu();
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('user-input');
+            const chat = document.getElementById('chat-box');
+            if(!input.value) return;
+
+            // User Message
+            chat.innerHTML += `<div class="chat-bubble user shadow-sm">${input.value}</div>`;
+            const query = input.value.toLowerCase();
+            input.value = '';
+
+            // Bot Thinking
+            setTimeout(() => {
+                let reply = "I'm still learning. Please train me more!";
+                if(botMemory.toLowerCase().includes(query)) {
+                    reply = "I found a match in my training data!";
+                }
+                chat.innerHTML += `<div class="chat-bubble bot shadow-md">${reply}</div>`;
+                chat.scrollTop = chat.scrollHeight;
+            }, 600);
+        }
+    </script>
+</body>
+</html>
